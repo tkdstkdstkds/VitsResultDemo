@@ -1,0 +1,70 @@
+# 指的是所有檔案都視為文字檔，強制上傳到repository時自動將crlf轉成lf
+# eol才是check out檔案到working copy時換行轉換
+# 這邊的設定會直接蓋掉gitconfig的core.autocrlf，因為是打了"*"代表所有檔案的意思
+# * text
+
+# 強制所有檔案不做任何換行轉換
+# 如果已經有東西原本不是lfs的可以下"git add --renormalize ."，重新轉成lfs
+# 將所有檔案全都改成lfs，可加速checkout，因為只會check out當前版本的資料，不會把歷史的資料全部拉下來。
+# 但是會失去git最大的優勢，保留所有歷史資料的功能，所以如果要轉移倉庫又要保有過去的歷史資料，在遷移前要下git lfs fetch
+# 把所有歷史資料下載回來
+* filter=lfs diff=lfs merge=lfs -text
+
+# The above will handle all files NOT found below
+# visual studio modified
+*.cs !filter text
+*.cginc !filter text
+*.shader !filter text
+
+## Unity ##
+*.meta !filter text
+
+# git default
+*.gitattributes !filter text
+*.gitignore !filter text
+
+# python
+*.py !filter text
+*.yml !filter text
+*.md !filter text
+
+# github
+LICENSE !filter text
+
+# hugging face filter
+*.wav filter=lfs diff=lfs merge=lfs -text
+*.7z filter=lfs diff=lfs merge=lfs -text
+*.arrow filter=lfs diff=lfs merge=lfs -text
+*.bin filter=lfs diff=lfs merge=lfs -text
+*.bz2 filter=lfs diff=lfs merge=lfs -text
+*.ckpt filter=lfs diff=lfs merge=lfs -text
+*.ftz filter=lfs diff=lfs merge=lfs -text
+*.gz filter=lfs diff=lfs merge=lfs -text
+*.h5 filter=lfs diff=lfs merge=lfs -text
+*.joblib filter=lfs diff=lfs merge=lfs -text
+*.lfs.* filter=lfs diff=lfs merge=lfs -text
+*.mlmodel filter=lfs diff=lfs merge=lfs -text
+*.model filter=lfs diff=lfs merge=lfs -text
+*.msgpack filter=lfs diff=lfs merge=lfs -text
+*.npy filter=lfs diff=lfs merge=lfs -text
+*.npz filter=lfs diff=lfs merge=lfs -text
+*.onnx filter=lfs diff=lfs merge=lfs -text
+*.ot filter=lfs diff=lfs merge=lfs -text
+*.parquet filter=lfs diff=lfs merge=lfs -text
+*.pb filter=lfs diff=lfs merge=lfs -text
+*.pickle filter=lfs diff=lfs merge=lfs -text
+*.pkl filter=lfs diff=lfs merge=lfs -text
+*.pt filter=lfs diff=lfs merge=lfs -text
+*.pth filter=lfs diff=lfs merge=lfs -text
+*.rar filter=lfs diff=lfs merge=lfs -text
+*.safetensors filter=lfs diff=lfs merge=lfs -text
+saved_model/**/* filter=lfs diff=lfs merge=lfs -text
+*.tar.* filter=lfs diff=lfs merge=lfs -text
+*.tar filter=lfs diff=lfs merge=lfs -text
+*.tflite filter=lfs diff=lfs merge=lfs -text
+*.tgz filter=lfs diff=lfs merge=lfs -text
+*.wasm filter=lfs diff=lfs merge=lfs -text
+*.xz filter=lfs diff=lfs merge=lfs -text
+*.zip filter=lfs diff=lfs merge=lfs -text
+*.zst filter=lfs diff=lfs merge=lfs -text
+*tfevents* filter=lfs diff=lfs merge=lfs -text
