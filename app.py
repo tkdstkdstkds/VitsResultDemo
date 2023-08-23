@@ -16,7 +16,7 @@ import os
 import librosa
 import re
 import traceback
-# TODO: 用幾句demo日文 讓點他後可以很簡單的測試  然後記得把license放上來
+
 def ttsGenerate(ttsModelFilePath, sentenceTextArea, speakerNameDropdown, vocalSpeedSlider):
     global ttsModelConfig
 
@@ -73,30 +73,45 @@ def onTTSModelConfigChanged(ttsModelConfigFilePath):
                          label="Speaker")
     return speakerDropDown
 
+def onTextSampleClick(textSampleButton):
+    global textSamples
+    return gradio.TextArea.update(textSamples[textSampleButton])
+    
+
 def main(): 
+    global textSamples
+
     app = gradio.Blocks()
     with app:
         with gradio.Tab("Text-to-Speech"):
             with gradio.Row():
                 with gradio.Column(): 
                     
-                    sentenceTextArea = gradio.TextArea(label="Text",
-                                            placeholder="Type your sentence here",
-                                            value="こんにちわ。")
-                    
-
-                    #speakerNameDropdown = gradio.Dropdown(label="Speaker")
+                    sentenceTextArea = gradio.TextArea(label="這邊只能打日文",
+                                            placeholder="打中文會沒有效果喔!",
+                                            value="こんにちは！私は夢咲れいです〜 これが私のAI音声テストデモです。")
                     
                     
                     with gradio.Row():
-                        vocalSpeedSlider = gradio.Slider(minimum=0.1, maximum=5, 
-                                                        value=1, step=0.1, 
+                        vocalSpeedSlider = gradio.Slider(minimum=0.1, maximum=1.5, 
+                                                        value=1.1, step=0.1, 
                                                         label="Vocal Speed")
                     
+                    
+
+
                     # gradio variable string
                     ttsModelFilePath = gradio.State(value="rei-yumesaki.pth")
 
                     speakerNameDropdown = onTTSModelConfigChanged("rei-yumesaki.json")
+
+                    with gradio.Row():
+                        gradio.Markdown(value="> 本ソフトウェアの音声合成には、フリー素材キャラクター「つくよみちゃん」が無料公開している音声データを使用しています。<br/>" \
+                                        "<br/>"\
+                                        "■つくよみちゃんコーパス（CV.夢前黎）<br/>"\
+                                        "https://tyc.rei-yumesaki.net/material/corpus/<br/>"\
+                                        "© Rei Yumesaki<br/>")
+                    
 
                 with gradio.Column():
                     processTextbox = gradio.Textbox(label="Process Text")
@@ -106,6 +121,19 @@ def main():
                         fn=ttsGenerate,
                         inputs=[ttsModelFilePath, sentenceTextArea, speakerNameDropdown, vocalSpeedSlider], # noqa
                         outputs=[processTextbox, audioOutputPlayer])
+                    
+                    # create text sample button
+                    for textSampleKey in textSamples:
+                        textSampleButton = gradio.Button(value=textSampleKey)
+                        textSampleButton.click(
+                            fn=onTextSampleClick,
+                            inputs=[textSampleButton],
+                            outputs=[sentenceTextArea]
+                        ).then(
+                            fn=ttsGenerate,
+                            inputs=[ttsModelFilePath, sentenceTextArea, speakerNameDropdown, vocalSpeedSlider], # noqa
+                            outputs=[processTextbox, audioOutputPlayer])
+                    
 
     app.launch()
 
@@ -113,6 +141,14 @@ if __name__ == '__main__':
 
     #tts model config vars
     ttsModelConfig = None
+
+    textSamples = \
+    {
+        "你好！ 我是Rei Yumesaki~這是我的AI語音測試演示。": "こんにちは！私は夢咲れいです〜 これが私のAI音声テストデモです。",
+        "只要記住你的名字，不管你在世界的哪個地方，我一定會去叫你！": "名前を覚えておけば、世界のどこにいても必ず呼びに行きます！",
+        "不要對外表過分在意，心靈才是最重要的〜": "外見をあまり気にしないでください。心が一番大切です〜",
+        "我看不到你的眼睛，你現在的心情如何?": "あなたの目は見えないけれど、今の気持ちはどうかな？",
+    }
 
     main()
 
