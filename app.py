@@ -90,9 +90,9 @@ def main():
                         # create a gradio markdown
                         gradio.Markdown("# 以下皆為AI文字轉聲音的技術研究測試，請勿用於商業及非法用途。")
                         
-                    sentenceTextArea = gradio.TextArea(label="這邊只能打日文",
+                    sentenceTextArea = gradio.TextArea(label="這邊只能打日文，打完後按Generate!就可以播放聲音了喔!",
                                             placeholder="打中文會沒有效果喔!",
-                                            value="こんにちは！私は夢咲れいです〜 これが私のAI音声テストデモです。")
+                                            value="また、東寺のように、五大明王と呼ばれる、主要な明王の中央に配されることも多い。")
                     
                     
                     with gradio.Row():
@@ -114,6 +114,8 @@ def main():
                                         "■つくよみちゃんコーパス（CV.夢前黎）<br/>"\
                                         "https://tyc.rei-yumesaki.net/material/corpus/<br/>"\
                                         "© Rei Yumesaki<br/>")
+                        # create a gradio audio player, audio file path = ./vocal/rei-yumesaki/VOICEACTRESS100_001.wav
+                        gradio.Audio(value="./vocal/rei-yumesaki/VOICEACTRESS100_001.wav", label="rei-yumesaki訓練集原始音檔試聽", shared=False)
                     
 
                 with gradio.Column():
@@ -147,6 +149,7 @@ if __name__ == '__main__':
 
     textSamples = \
     {
+        "此外，與東寺一樣，它經常被放置在被稱為“五大明王”的主要明王的中心。": "また、東寺のように、五大明王と呼ばれる、主要な明王の中央に配されることも多い。",
         "你好！ 我是Rei Yumesaki~這是我的AI語音測試演示。": "こんにちは！私は夢咲れいです〜 これが私のAI音声テストデモです。",
         "只要記住你的名字，不管你在世界的哪個地方，我一定會去叫你！": "名前を覚えておけば、世界のどこにいても必ず呼びに行きます！",
         "不要對外表過分在意，心靈才是最重要的〜": "外見をあまり気にしないでください。心が一番大切です〜",
