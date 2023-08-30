@@ -27,6 +27,7 @@
 *.py !filter text
 *.yml !filter text
 *.md !filter text
+*.txt !filter text
 
 # github
 LICENSE !filter text
