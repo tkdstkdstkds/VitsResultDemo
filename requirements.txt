@@ -19,4 +19,4 @@ num-thai==0.0.5
 
 opencc==1.1.1
 audonnx==0.6.3
-gradio==3.40.1
+gradio==3.23.0
