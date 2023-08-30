@@ -6,5 +6,7 @@ channels:
 
 dependencies:
   - python=3.10
-  - gradio=3.40.1
-  
+  - gradio=3.23.0
+  - pip
+  - pip:
+    - -r file:requirements.txt
