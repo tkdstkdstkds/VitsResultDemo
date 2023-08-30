@@ -86,7 +86,10 @@ def main():
         with gradio.Tab("Text-to-Speech"):
             with gradio.Row():
                 with gradio.Column(): 
-                    
+                    with gradio.Row():
+                        # create a gradio markdown
+                        gradio.Markdown("# 以下皆為AI文字轉聲音的技術研究測試，請勿用於商業及非法用途。")
+                        
                     sentenceTextArea = gradio.TextArea(label="這邊只能打日文",
                                             placeholder="打中文會沒有效果喔!",
                                             value="こんにちは！私は夢咲れいです〜 これが私のAI音声テストデモです。")
